@@ -11,6 +11,18 @@ class PerfilForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
+    senha = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput()
+    )
+
+
+    def __init__(self, usuario=None, *args, **kwargs):
+        super().__init__(*args, **kwargs) 
+
+        self.usuario = usuario
+        
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'password', 'email')
