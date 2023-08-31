@@ -11,9 +11,10 @@ class PerfilForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
-    senha = forms.CharField(
+    password = forms.CharField(
         required=False,
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(),
+        label='Senha'
     )
 
 
