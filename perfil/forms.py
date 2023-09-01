@@ -56,8 +56,8 @@ class UserForm(forms.ModelForm):
         # Usuários logados: atualização
         if self.usuario:
             if usuario_data != usuario_db.username:
-                if usuario_db:
-                    validation_error_msgs['username'] = error_msg_user_exists
+                # novo_usuario = User.objects.filter(username=usuario_data).first()
+                validation_error_msgs['username'] = error_msg_user_exists
 
 
             if email_data != email_db.email:
