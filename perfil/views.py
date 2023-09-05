@@ -47,7 +47,11 @@ class BasePerfil(View):
             }
 
         self.userform = self.contexto['userform']
-        self.perfilform = self.contexto['perfilform']    
+        self.perfilform = self.contexto['perfilform']   
+
+        if self.request.user.is_authenticated:
+            self.template_name = 'perfil/atualizar.html'
+
 
         self.renderizar = render(
             self.request, self.template_name, self.contexto)
@@ -85,6 +89,10 @@ class Criar(BasePerfil):
             if not self.perfil:
                 self.perfilform.cleaned_data['usuário'] = usuario
                 perfil = models.Perfil(**self.perfilform.cleaned_data)
+                perfil.save()
+            else:
+                perfil = self.perfilform.save(commit=False)
+                perfil.usuário = usuario
                 perfil.save()
 
         # Usuário não logado (novo)
