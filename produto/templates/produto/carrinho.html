@@ -4,14 +4,14 @@
 
 {% block conteudo %}
 
-{% if request.session.carrinho %}
+{% if carrinho %}
 
 <div class="row mt-3">
     <div class="col">
         <h3>Carrinho de compras</h3>
         <p class="lead">Os produtos, quantidades e preços que você escolheu.</p>
 
-        {% include 'parciais/_carrinho' %}
+        {% include 'parciais/_carrinho.html' %}
     </div>
 </div>
 
