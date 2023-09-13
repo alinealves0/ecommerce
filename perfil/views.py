@@ -34,7 +34,8 @@ class BasePerfil(View):
                 instance=self.request.user,
                 ),
                 'perfilform': forms.PerfilForm(
-                data=self.request.POST or None
+                data=self.request.POST or None,
+                instance=self.perfil
                 )
             }
         else:
@@ -94,12 +95,13 @@ class Criar(BasePerfil):
             usuario.save()
 
             if not self.perfil:
-                self.perfilform.cleaned_data['usuário'] = usuario
+                self.perfilform.cleaned_data['usuario'] = usuario
+                print(self.perfilform.cleaned_data)
                 perfil = models.Perfil(**self.perfilform.cleaned_data)
                 perfil.save()
             else:
                 perfil = self.perfilform.save(commit=False)
-                perfil.usuário = usuario
+                perfil.usuario = usuario
                 perfil.save()
 
         # Usuário não logado (novo)
