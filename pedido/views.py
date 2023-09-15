@@ -73,7 +73,25 @@ class Pagar(View):
             qtd_total=qtd_total_carrinho,
             status='C',
 
-        )    
+        )
+
+        pedido.save()  
+
+        ItemPedido.objects.bulk_create(
+            [
+                ItemPedido(
+                    pedido=pedido,
+                    produto=v['produto_nome'],
+                    produto_id=v['produto_id'],
+                    variacao=v['variacao_nome'],
+                    variacao_id=v['variacao_id'],
+                    preco=v['preco_quantitativo'],
+                    preco_promocional=v['preco_quantitativo_promocional'],
+                    quantidade=v['quantidade'],
+                    imagem=v['imagem'],
+                )for v in carrinho.values()
+            ]
+        )  
 
         contexto = {
 
