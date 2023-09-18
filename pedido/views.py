@@ -1,3 +1,6 @@
+from typing import Any
+from django import http
+from django.db import models
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import ListView, DetailView
 from django.views import View
@@ -9,13 +12,24 @@ from .models import Pedido, ItemPedido
 
 from utils import utils
 
+class DispatchLoginRequired(View):
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('perfil:criar')
+        
+        return super().dispatch(*args, **kwargs)
 
 
-class Pagar(DetailView):
+class Pagar(DispatchLoginRequired, DetailView):
     template_name = 'pedido/pagar.html'
     model = Pedido
     pk_url_kwarg = 'pk'
     context_object_name = 'pedido'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(usuario=self.request.user)
+        return qs 
 
 class SalvarPedido(View):
     template_name = 'pedido/pagar.html'
